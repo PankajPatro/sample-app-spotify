@@ -4,8 +4,13 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatIconModule } from '@angular/material/icon'
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -29,7 +34,8 @@ import { HomeComponent } from './home/home.component';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    FlexLayoutModule, 
+    HttpClientXsrfModule,
+    FlexLayoutModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
