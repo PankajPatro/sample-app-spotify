@@ -9,12 +9,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatToolbarModule } from  '@angular/material/toolbar';
 import { MatCardModule } from  '@angular/material/card';
 import { MatButtonModule } from  '@angular/material/button';
+import { MatIconModule } from  '@angular/material/icon';
+
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { CreditsComponent } from './credits/credits.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    CreditsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +32,8 @@ import { environment } from '../environments/environment';
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
+    FlexLayoutModule, 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],

@@ -1,18 +1,11 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>JS-jargon</span>
+    <a mat-button routerLink="/home">
+      <mat-icon>home</mat-icon>
+      Sample-ify
+    </a>
+    <span class="fill-remaining-place"></span>
+    <a mat-button routerLink="/credits">Credits</a>
   </mat-toolbar-row>
 </mat-toolbar>
-<main>
-  <mat-card *ngFor="let item of items">
-    <mat-card-header>
-      <mat-card-title>{{item.name}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      {{item.description}}
-    </mat-card-content>
-    <mat-card-actions>
-      <a mat-raised-button href="{{item.url}}" color="primary">More</a>
-    </mat-card-actions>
-  </mat-card>
-</main>
+<router-outlet></router-outlet>

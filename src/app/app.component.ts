@@ -8,19 +8,10 @@ import { Item } from './api.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'pwademo';
-  items: Array<Item>;
-  constructor(private apiService: ApiService) {
+  
+  ngOnInit(): void {
+    
   }
-  ngOnInit() {
-    this.fetchData();
-  }
-  fetchData() {
-    this.apiService.fetch().subscribe((data: Array<Item>) => {
-      console.log(data);
-      this.items = data;
-    }, (err) => {
-      console.log(err);
-    });
-  }
+  
+  
 }
