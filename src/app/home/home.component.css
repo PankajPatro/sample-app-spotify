@@ -1,5 +1,6 @@
-.example-card {
+.song-card {
     max-width: 400px;
+    margin: 10px;
 }
 
 .example-header-image {
