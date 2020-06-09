@@ -16,8 +16,7 @@ export class PlaylistService {
 
   constructor(private playlistStore: PlaylistStore, private playlistQuery: PlaylistQuery) { }
 
-  upsertSong(order: number, song: SongModel) {
-    const newSong = { ...song, order: order };
+  upsertSong(song: SongModel) {
     this.playlistStore.upsert(song.id, song);
   }
 

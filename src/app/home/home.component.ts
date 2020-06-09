@@ -10,7 +10,7 @@ import { GenresService } from '../services/genres/genres.service';
 import { PlaylistService } from '../services/playlist/playlist.service';
 import { PlaylistQuery } from '../services/playlist/playlist.query';
 import { AudioService } from '../services/audio/audio.service';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Album } from '../models/album.model';
 import { AlbumsQuery } from '../services/albums/albums.query';
 import { Order } from '@datorama/akita';
@@ -30,6 +30,8 @@ export class HomeComponent implements OnInit {
   audioPlaySubscription: Subscription;
   selectedAlbumId: string;
   albums$: Observable<Album[]>;
+  currentSong: SongModel;
+  nextSongSubscription: Subscription;
 
   constructor(private songsQuery: SongsQuery, private tagsService: TagsService
     , private albumsService: AlbumService, private actorsService: ActorsService, private albumsQuery: AlbumsQuery,
@@ -42,12 +44,12 @@ export class HomeComponent implements OnInit {
     this.isLoading$ = this.songsQuery.selectLoading();
     this.fetchData();
     this.audioPlaySubscription = this.audioService.PlayFinished.subscribe(async (order) => {
-      console.log('called');
       const nextOrder = order + 1;
-      var nextSong = await this.playlistQuery.selectEntity(p => p.order === nextOrder).toPromise();
-      if (nextSong) {
-        this.playAudio(nextSong);
-      }
+      this.nextSongSubscription = this.playlistQuery.selectEntity(p => p.order === nextOrder).pipe(take(1), map(s => {
+        return s;
+      })).subscribe(s => {
+        this.playAudio(s);
+      });
     });
   }
 
@@ -77,9 +79,10 @@ export class HomeComponent implements OnInit {
   }
 
   addToPlaylist(song: SongModel) {
-    this.playlistService.upsertSong(this.order, song);
+    const newSong = { ...song, currentlyPlaying: false, order : this.order };
+    this.playlistService.upsertSong(newSong);
     if(this.order === 1){
-      this.playAudio(song);
+      this.playAudio(newSong);
     }
     this.order = this.order + 1;
   }
@@ -91,16 +94,22 @@ export class HomeComponent implements OnInit {
   }
 
   stopAudio(song: SongModel) {
-    var newSong = { ...song, currentlyPlaying: false };
-    this.playlistService.upsertSong(newSong.order, newSong);
+    const newSong = { ...song, currentlyPlaying: false, order : song.order };
+    this.playlistService.upsertSong(newSong);
     this.audioService.stop();
+    this.currentSong = undefined;
   }
 
   playAudio(song: SongModel) {
-    this.playlistService.stopAll();
-    var newSong = { ...song, currentlyPlaying: true };
-    this.playlistService.upsertSong(newSong.order, newSong);
-    this.audioService.play(song);
+    this.nextSongSubscription ? this.nextSongSubscription.unsubscribe() : '';
+    if(this.currentSong){
+      const newSong = { ...this.currentSong, currentlyPlaying: false, order: this.currentSong.order };
+      this.playlistService.upsertSong(newSong);
+    }
+    const newSong = { ...song, currentlyPlaying: true, order: song.order };
+    this.playlistService.upsertSong(newSong);
+    this.audioService.play(newSong);
+    this.currentSong = newSong;
   }
 
 }
