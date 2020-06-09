@@ -1,19 +1,72 @@
-<div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center stretch" fxLayoutGap="20px">
-    <mat-card fxFlex="0 1 calc(33.3% - 32px)" class="song-card" *ngFor="let song of songs">
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>Shiba Inu</mat-card-title>
-            <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        </mat-card-header>
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-        <mat-card-content>
-            <p>
-                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-            </p>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button>LIKE</button>
-            <button mat-button>SHARE</button>
-        </mat-card-actions>
-    </mat-card>
-</div>
+<mat-drawer-container class="full-width-height">
+    <mat-drawer mode="side" opened class="min-width-player">
+        <mat-list color="primary">
+            <h3>
+                <mat-icon>music_note</mat-icon>PlayList
+            </h3>
+            <mat-list-item *ngFor="let song of playlist$ | async;">
+                <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
+                <h4 mat-line>{{ song.title }}</h4>
+                <h5 mat-line>by {{ song.albumExpanded.name }}</h5>
+                <mat-icon style="cursor: pointer;" color="accent" *ngIf="!song.currentlyPlaying" mat-list-icon (click)="playAudio(song)">play_arrow</mat-icon>
+                <mat-icon style="cursor: pointer;" color="accent" *ngIf="song.currentlyPlaying" mat-list-icon (click)="stopAudio(song)">stop</mat-icon>
+                <mat-divider></mat-divider>
+            </mat-list-item>
+        </mat-list>
+    </mat-drawer>
+    <mat-drawer-content>
+        <mat-spinner *ngIf="isLoading$ | async">
+        </mat-spinner>
+        <div *ngIf="!(isLoading$ | async)" style="margin-top: 10px;" fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="20px">
+            <mat-form-field>
+                <mat-label>Filter By Albums</mat-label>
+                <mat-select [(value)]="selectedAlbumId">
+                    <mat-option *ngFor="let album of albums$ | async" [value]="album.id">
+                        {{album.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button (click)="applyFilter();">Apply</button>
+            <button mat-raised-button (click)="clearFilter();">Clear Filters</button>
+        </div>
+        <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+            <mat-card fxFlex="0 1 calc(33.3% - 32px)" class="song-card" *ngFor="let song of songs$ | async">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>{{song?.title}}</mat-card-title>
+                    <mat-card-subtitle>{{song?.albumExpanded?.name}}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image [src]="song.titleCover" alt="Title Cover">
+                <mat-card-content>
+                    <div fxLayout="row wrap" fxLayoutAlign="stretch" fxLayoutGap="5px">
+                        <mat-chip-list>
+                            <mat-chip color="accent" selected *ngFor="let actor of song.actorsExpanded">{{actor?.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                        <mat-chip-list>
+                            <mat-chip color="primary" selected *ngFor="let genre of song.genresExpanded">{{genre?.name}}
+                            </mat-chip>
+                        </mat-chip-list>
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let tag of song.tagsExpanded">
+                                {{tag?.name}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </mat-card-content>
+                <mat-card-actions align="end">
+                    <button style="margin-right:10px;" mat-fab (click)="clearAndAddToPlaylist(song)">
+                        <mat-icon>play_arrow</mat-icon>
+                    </button>
+                    <button style="margin-right:10px;" mat-fab matTooltip="Add to Queue" (click)="addToPlaylist(song)">
+                        <mat-icon>playlist_add</mat-icon>
+                    </button>
+                    <button mat-fab>
+                        <mat-icon>favorite</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
