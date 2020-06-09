@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
     this.isLoading$ = this.songsQuery.selectLoading();
     this.fetchData();
     this.audioPlaySubscription = this.audioService.PlayFinished.subscribe(async (order) => {
+      console.log('called');
       const nextOrder = order + 1;
       var nextSong = await this.playlistQuery.selectEntity(p => p.order === nextOrder).toPromise();
       if (nextSong) {

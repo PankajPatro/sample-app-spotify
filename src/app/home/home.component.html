@@ -2,12 +2,12 @@
     <mat-drawer mode="side" opened class="min-width-player">
         <mat-list color="primary">
             <h3>
-                <mat-icon>music_note</mat-icon>PlayList
+                <mat-icon>music_note</mat-icon>Songs
             </h3>
             <mat-list-item *ngFor="let song of playlist$ | async;">
                 <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
                 <h4 mat-line>{{ song.title }}</h4>
-                <h5 mat-line>by {{ song.albumExpanded.name }}</h5>
+                <h5 mat-line>{{ song.albumExpanded?.name }}</h5>
                 <mat-icon style="cursor: pointer;" color="accent" *ngIf="!song.currentlyPlaying" mat-list-icon (click)="playAudio(song)">play_arrow</mat-icon>
                 <mat-icon style="cursor: pointer;" color="accent" *ngIf="song.currentlyPlaying" mat-list-icon (click)="stopAudio(song)">stop</mat-icon>
                 <mat-divider></mat-divider>
