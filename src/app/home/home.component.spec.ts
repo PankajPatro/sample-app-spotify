@@ -28,6 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
+import { MatMenuModule } from '@angular/material/menu';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -46,7 +47,7 @@ describe('HomeComponent', () => {
         MatListModule,
         FormsModule,
         MatFormFieldModule,
-        MatSelectModule,],
+        MatSelectModule,MatMenuModule],
       providers: [SongsQuery, TagsService, AlbumService, ActorsService, AlbumsQuery, GenresService, SongsService, PlaylistService, PlaylistQuery, AudioService, HttpClientModule , HttpClient,  HttpHandler, HttpClientTestingModule]
     })
     .compileComponents();

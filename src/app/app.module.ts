@@ -17,8 +17,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatMenuModule } from '@angular/material/menu';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { enableAkitaProdMode } from '@datorama/akita';
@@ -27,12 +30,20 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { CreditsComponent } from './credits/credits.component';
 import { HomeComponent } from './home/home.component';
+import { SecurePageComponent } from './secure-page/secure-page.component';
+import { LoginComponent } from './login/login.component';
+import { UnknownPageComponent } from './unknown-page/unknown-page.component';
+import { ShowIfLoggedInDirective } from './session/show-if-logged-in.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     CreditsComponent,
-    HomeComponent
+    HomeComponent,
+    SecurePageComponent,
+    LoginComponent,
+    UnknownPageComponent,
+    ShowIfLoggedInDirective
   ],
   imports: [
     BrowserModule,
@@ -48,9 +59,12 @@ import { HomeComponent } from './home/home.component';
     MatTooltipModule,
     MatSidenavModule,
     MatListModule,
+    MatInputModule,
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatMenuModule,
     HttpClientXsrfModule,
     FlexLayoutModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

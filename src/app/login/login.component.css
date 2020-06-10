@@ -1,0 +1,15 @@
+.full-width-height {
+    height: 93.35vh;
+    width: 100vw;
+    background-color: #555353;
+}
+
+.login-card {
+    margin-top: 1px;
+    margin-left: 25vw;
+    max-width: 50vw;
+}
+
+.full-width {
+    width: 100%;
+}

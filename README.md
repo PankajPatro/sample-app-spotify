@@ -5,6 +5,13 @@ The code uses Angular Material.
 
 The api is hosted as firebase functions. Code of it is also found in this code base.
 
+To see authguard in action check the secure section.
+
+Use the following credentials 
+
+User - Admin
+Password - Test@123
+
 ## Bugs
 
 On playing another song the stop button is not changed to play again.

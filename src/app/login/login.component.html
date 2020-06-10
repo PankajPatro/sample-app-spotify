@@ -1,0 +1,21 @@
+<div class="full-width-height">
+    <mat-card class="login-card">
+        <mat-card-title>Login</mat-card-title>
+        <mat-card-subtitle>{{loginMessage}}</mat-card-subtitle>
+        <mat-card-content>
+            <div class="full-width">
+                <mat-form-field class="full-width">
+                    <input matInput required placeholder="User Name" [formControl]="userName" />
+                </mat-form-field>
+            </div>
+            <div class="full-width">
+                <mat-form-field class="full-width">
+                    <input matInput type="password" placeholder="Password" [(ngModel)]="password" />
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button [disabled]="!isValid" mat-raised-button color="primary" (click)="login()">Login</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
